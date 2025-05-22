@@ -51,9 +51,6 @@ class RegisteredUserController extends Controller
         ]);
 
         event(new Registered($user));
-
-        Auth::login($user);
-
         return response()->json([
             'message'           => 'Berhasil membuat akun!',
             'csrf_token'        => csrf_token(),
