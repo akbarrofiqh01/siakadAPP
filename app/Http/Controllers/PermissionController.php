@@ -11,7 +11,10 @@ class PermissionController extends Controller
 {
     public function index()
     {
-        return view('permissions.index');
+        $dataPermissions = Permission::all();
+        return view('permissions.index', [
+            'permissions'       => $dataPermissions
+        ]);
     }
 
     public function store(Request $request)
@@ -32,9 +35,29 @@ class PermissionController extends Controller
         ]);
     }
 
-    public function edit() {}
+    public function edit($usercode)
+    {
+        $permissions = Permission::where('code_permissions', $usercode)->firstOrFail();
+        return view('modal.permissions.update', [
+            'rowPermissions'        => $permissions
+        ]);
+    }
 
-    public function update() {}
+    public function update(Request $request, $usercode)
+    {
+        $validated = $request->validate([
+            'name'                 => ['required', 'unique:permissions', 'min:3'],
+        ], [
+            'name.required'        => 'Bagian nama permissions wajib diisi !!!',
+        ]);
+
+        $getPermissions = Permission::where('code_permissions', $usercode)->firstOrFail();
+        $getPermissions->update($validated);
+        return response()->json([
+            'message'           => 'Data permissions berhasil diubah!',
+            'csrf_token'        => csrf_token()
+        ]);
+    }
 
     public function destroy() {}
 }

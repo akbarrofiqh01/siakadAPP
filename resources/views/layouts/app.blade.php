@@ -38,10 +38,14 @@
             console.error('Axios gagal dimuat!');
         }
     </script>
+    <style>
+        .swal2-container {
+            z-index: 20000 !important;
+        }
+    </style>
 </head>
 
 <body class="app sidebar-mini ltr light-mode">
-
     <!-- GLOBAL-LOADER -->
     <div id="global-loader">
         <img src="{{ asset('assets/backend/images/loader.svg') }}" class="loader-img" alt="Loader">
